@@ -21,18 +21,22 @@ public class util {
         return meretek;
     }
 
-    public static double szamitas(int tav, double m1, double m2, double m3, double tomeg) {
-        Double[] meretek = meretSorban(m1, m2, m3);
-        m3 = meretek[2];
+    public static double szamitas(int tav, double meret1, double meret2, double meret3, double tomeg) {
+        Double[] meretek = meretSorban(meret1, meret2, meret3);
+        Double m1;
+        Double m2;
+        Double m3 = meretek[2];
+        System.out.println("1) 1: " + meretek[0] + ", 2: " + meretek[1] + ", 3: " + meretek[2]);
 
         // meg kell keverni a számokat, mert m1 (az egyetlen változó érték a csomagméreteknél) lehet nagyobb, mint m2 (m1 max 37.5, m2 max 36)
-        if (meretek[0] <= 36 ) {
-            m2 = meretek[0];
+        if (meretek[1] > 36 ) {
             m1 = meretek[1];
+            m2 = meretek[0];
         } else {
             m1 = meretek[0];
             m2 = meretek[1];
         }
+        System.out.println("2) m1: " + m1 + ", m2: " + m2 + ", m3: " + m3);
 
         if (tav < 5) {
             reszeredm = 500;
