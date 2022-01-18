@@ -2,6 +2,7 @@ package com.example.gui_basic;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.util.Arrays;
 
 public class util {
 
@@ -14,10 +15,24 @@ public class util {
     static double szum = 0;
     static Integer ssz = 1;       // csomag sorszáma, hat az árra is
 
+    public static Double[] meretSorban(Double x, Double y, Double z) {
+        Double[] meretek = new Double[]{x, y, z};
+        Arrays.sort(meretek);
+        return meretek;
+    }
 
-    public static double szamitas(int tav, double m1, double tomeg) {
-        // double m2;              //m2 és m3 csak akkor kell, ha megnézzük, hogy túl nagyot írtak-e be, vagy ha sorbarendezősen nézzük a számokat
-        // double m3;              // a legnagyobb lehet max 61, ha a 2. legnagyobb max 36, akkor a legkisebb érték lesz m1; de ha 36 és 37,5 közti, akkor ez lesz m1
+    public static double szamitas(int tav, double m1, double m2, double m3, double tomeg) {
+        Double[] meretek = meretSorban(m1, m2, m3);
+        m3 = meretek[2];
+
+        // meg kell keverni a számokat, mert m1 (az egyetlen változó érték a csomagméreteknél) lehet nagyobb, mint m2 (m1 max 37.5, m2 max 36)
+        if (meretek[0] <= 36 ) {
+            m2 = meretek[0];
+            m1 = meretek[1];
+        } else {
+            m1 = meretek[0];
+            m2 = meretek[1];
+        }
 
         if (tav < 5) {
             reszeredm = 500;
@@ -86,45 +101,94 @@ public class util {
     public static boolean inputCheck() {
         boolean jovagynem = true;
         System.out.println(" inputCheck ");
-        if (main.m1Mezo.getText() == "") {
+
+        //színek visszaállítása
+        main.m1Mezo.setStyle("-fx-background-color: WHITE");
+        main.m2Mezo.setStyle("-fx-background-color: WHITE");
+        main.m3Mezo.setStyle("-fx-background-color: WHITE");
+        main.tomegMezo.setStyle("-fx-background-color: WHITE");
+        main.tavMezo.setStyle("-fx-background-color: WHITE");
+
+        try {
+            Double.parseDouble(main.m1Mezo.getText());
+        } catch(NumberFormatException e) {
             jovagynem = false;
             main.m1Mezo.setStyle("-fx-background-color: RED");
-            errormessage.display("Üres méret mező");
+            if (main.m1Mezo.getText() == "") {
+                errormessage.display("Üres méret mező");
+            } else {
+                errormessage.display("A megadott adat formátuma nem megfelelő");
+            }
         }
-        if (main.m2Mezo.getText() == "") {
+
+        try {
+            Double.parseDouble(main.m2Mezo.getText());
+        } catch(NumberFormatException e) {
             jovagynem = false;
             main.m2Mezo.setStyle("-fx-background-color: RED");
-            errormessage.display("Üres méret mező");
+            if (main.m2Mezo.getText() == "") {
+                errormessage.display("Üres méret mező");
+            } else {
+                errormessage.display("A megadott adat formátuma nem megfelelő");
+            }
         }
-        if (main.m3Mezo.getText() == "") {
+
+        try {
+            Double.parseDouble(main.m3Mezo.getText());
+        } catch(NumberFormatException e) {
             jovagynem = false;
             main.m3Mezo.setStyle("-fx-background-color: RED");
-            errormessage.display("Üres méret mező");
+            if (main.m3Mezo.getText() == "") {
+                errormessage.display("Üres méret mező");
+            } else {
+                errormessage.display("A megadott adat formátuma nem megfelelő");
+            }
         }
-        if (main.tomegMezo.getText() == "") {
+
+        // FONTOS, hogy ez az if itt legyen, mert eddig még csak a méret mezőket néztük, tehát most biztos, hogy a méret mezők megfelelő formátumú adatokkal vannak töltve
+        if (jovagynem) {
+            Double[] m = meretSorban(Double.parseDouble(main.m1Mezo.getText()), Double.parseDouble(main.m2Mezo.getText()), Double.parseDouble(main.m3Mezo.getText()));
+            Double a = m[0];
+            Double b = m[1];
+            Double c = m[2];
+            if ( (c > 61.0) || (b > 37.5) || (a > 36) ) {
+                jovagynem = false;
+                main.m1Mezo.setStyle("-fx-background-color: RED");
+                main.m2Mezo.setStyle("-fx-background-color: RED");
+                main.m3Mezo.setStyle("-fx-background-color: RED");
+                errormessage.display("A feladott csomag tömege nem lehet nagyobb 37,5 cm x 36 cm x 61 cm-nél");
+            }
+        }
+
+        try {
+            Double.parseDouble(main.tomegMezo.getText());
+        } catch(NumberFormatException e) {
             jovagynem = false;
             main.tomegMezo.setStyle("-fx-background-color: RED");
-            errormessage.display("Üres tömeg mező");
-        } else if (Double.parseDouble(main.tomegMezo.getText()) > 20) {
+            if (main.tomegMezo.getText() == "") {
+                errormessage.display("Üres tömeg mező");
+            } else {
+                errormessage.display("A megadott adat formátuma nem megfelelő");
+            }
+        }
+        if (Double.parseDouble(main.tomegMezo.getText()) > 20) {
             jovagynem = false;
             main.tomegMezo.setStyle("-fx-background-color: RED");
             errormessage.display("A feladott csomag tömege nem lehet több 20 kg-nál");
         }
 
-        if (main.tavMezo.getText() == "") {
+        try {
+            Integer.parseInt(main.tavMezo.getText());
+        } catch(NumberFormatException e) {
             jovagynem = false;
             main.tavMezo.setStyle("-fx-background-color: RED");
-            errormessage.display("Üres szállítási távolság mező");
+            if (main.tavMezo.getText() == "") {
+                errormessage.display("Üres szállítási távolság mező");
+            } else {
+                errormessage.display("A megadott adat formátuma nem megfelelő");
+            }
         }
 
-        //színek visszaállítása
-        if (jovagynem) {
-            main.m1Mezo.setStyle("-fx-background-color: WHITE");
-            main.m2Mezo.setStyle("-fx-background-color: WHITE");
-            main.m3Mezo.setStyle("-fx-background-color: WHITE");
-            main.tomegMezo.setStyle("-fx-background-color: WHITE");
-            main.tavMezo.setStyle("-fx-background-color: WHITE");
-        }
         return jovagynem;
     }
 

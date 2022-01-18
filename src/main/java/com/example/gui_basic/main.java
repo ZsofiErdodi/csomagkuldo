@@ -13,6 +13,7 @@ import javafx.scene.control.*;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+import javafx.stage.WindowEvent;
 
 public class main extends Application {
 
@@ -87,6 +88,9 @@ public class main extends Application {
         egesz.addAll(sor1, sor2, sor3, sor4, sor5, sor6);
 
         primaryStage.close();
+        primaryStage.setOnCloseRequest((WindowEvent we) -> {
+            Platform.exit();
+        });
         primaryStage.show();
 
         infoGomb.setOnAction(event);
@@ -110,7 +114,7 @@ public class main extends Application {
             } else if (actionEvent.getSource() == tovabb) {
                 boolean kitoltes = util.inputCheck();
                 if (kitoltes) {
-                    util.szamitas(Integer.parseInt(tavMezo.getText()), Double.parseDouble(m1Mezo.getText()), Double.parseDouble(tomegMezo.getText()));
+                    util.szamitas(Integer.parseInt(tavMezo.getText()), Double.parseDouble(m1Mezo.getText()), Double.parseDouble(m2Mezo.getText()), Double.parseDouble(m3Mezo.getText()), Double.parseDouble(tomegMezo.getText()));
                     util.reset();
                     sszMezo.setText(util.ssz.toString());
                     osszeg.setText(Double.toString(util.szum));
@@ -120,7 +124,7 @@ public class main extends Application {
             else if (actionEvent.getSource() == kesz) {
                 boolean kitoltes = util.inputCheck();
                 if (kitoltes) {
-                    util.szamitas(Integer.parseInt(tavMezo.getText()), Double.parseDouble(m1Mezo.getText()), Double.parseDouble(tomegMezo.getText()));
+                    util.szamitas(Integer.parseInt(tavMezo.getText()), Double.parseDouble(m1Mezo.getText()), Double.parseDouble(m2Mezo.getText()), Double.parseDouble(m3Mezo.getText()), Double.parseDouble(tomegMezo.getText()));
                     Integer db = util.ssz - 1;
                     eredmeny.display(db.toString(), Double.toString(util.szum));
                 }
