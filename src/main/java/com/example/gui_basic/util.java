@@ -6,12 +6,8 @@ import java.util.Arrays;
 
 public class util {
 
-    private static void print(String output) {
-        System.out.println(output);
-    }
-
-
     static double reszeredm = 0;
+    static double reszszum = 0;
     static double szum = 0;
     static Integer ssz = 1;       // csomag sorszáma, hat az árra is
 
@@ -24,19 +20,17 @@ public class util {
     public static double szamitas(int tav, double meret1, double meret2, double meret3, double tomeg) {
         Double[] meretek = meretSorban(meret1, meret2, meret3);
         Double m1;
-        Double m2;
-        Double m3 = meretek[2];
-        System.out.println("1) 1: " + meretek[0] + ", 2: " + meretek[1] + ", 3: " + meretek[2]);
+        //Double m2;
+        //Double m3 = meretek[2];
 
         // meg kell keverni a számokat, mert m1 (az egyetlen változó érték a csomagméreteknél) lehet nagyobb, mint m2 (m1 max 37.5, m2 max 36)
         if (meretek[1] > 36 ) {
             m1 = meretek[1];
-            m2 = meretek[0];
+            //m2 = meretek[0];
         } else {
             m1 = meretek[0];
-            m2 = meretek[1];
+            //m2 = meretek[1];
         }
-        System.out.println("2) m1: " + m1 + ", m2: " + m2 + ", m3: " + m3);
 
         if (tav < 5) {
             reszeredm = 500;
@@ -65,16 +59,19 @@ public class util {
         BigDecimal bd2 = new BigDecimal(szum).setScale(2, RoundingMode.HALF_UP);
         szum = bd2.doubleValue();
 
-        szum = szum + reszeredm;
+        reszszum = reszszum + reszeredm;
 
-        if (ssz >= 2 && ssz < 5) {
-            szum = szum * 0.85;
-        } else if (ssz >= 5) {
-            szum = szum * 0.75;
+        if (ssz < 2) {
+            szum = reszszum;
+        } else {
+            if (ssz >= 2 && ssz < 5) {
+                szum = reszszum * 0.85;
+            } else if (ssz >= 5) {
+                szum = reszszum * 0.75;
+            }
         }
 
         ssz++;
-        System.out.println("Részeredmény: " + reszeredm + " Szum: " + szum + " Köv sorszám: " + ssz);      // ez nem kell
 
         return szum;
     }
@@ -96,6 +93,7 @@ public class util {
     public static void clear() {
         reset();
         reszeredm = 0;
+        reszszum = 0;
         szum = 0;
         ssz = 1;
         main.sszMezo.setText(ssz.toString());
