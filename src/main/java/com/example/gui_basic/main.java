@@ -22,7 +22,7 @@ public class main extends Application {
     }
     VBox vbox = new VBox();
     HBox sor1 = new HBox();
-    static TextField sszMezo = new TextField("1");
+    static Label sszMezo = new Label("1");
     Button infoGomb = new Button("Info");
     HBox sor2 = new HBox();
     HBox sor3 = new HBox();
@@ -45,7 +45,6 @@ public class main extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception {
         primaryStage.setTitle("Csomagküldés");
-        sszMezo.setEditable(false);
         osszeg.setEditable(false);
         sszMezo.setMaxWidth(30);
         m1Mezo.setMaxWidth(50);
