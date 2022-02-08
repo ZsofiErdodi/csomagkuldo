@@ -33,7 +33,7 @@ public class main extends Application {
     static TextField tomegMezo = new TextField();
     static TextField tavMezo = new TextField();
     HBox sor5 = new HBox();
-    static TextField osszeg = new TextField();
+    static Label osszeg = new Label("0");
     Button clear = new Button("Mezők törlése");
     HBox sor6 = new HBox();
     Button tovabb = new Button("Tovább");
@@ -45,14 +45,13 @@ public class main extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception {
         primaryStage.setTitle("Csomagküldés");
-        osszeg.setEditable(false);
         sszMezo.setMaxWidth(30);
         m1Mezo.setMaxWidth(50);
         m2Mezo.setMaxWidth(50);
         m3Mezo.setMaxWidth(50);
         tomegMezo.setMaxWidth(50);
         tavMezo.setMaxWidth(50);
-        osszeg.setMaxWidth(100);
+        osszeg.setPrefWidth(100);
         primaryStage.setScene(scene);
         sor1.setSpacing(10);
         sor3.setSpacing(10);
@@ -80,7 +79,7 @@ public class main extends Application {
         ObservableList list4 = sor4.getChildren();
         list4.addAll(new Label("Csomag tömege (kg): "), tomegMezo, new Label("Szállítási távolság (km): "), tavMezo);
         ObservableList list5 = sor5.getChildren();
-        list5.addAll(new Label("Rész/végösszeg (Ft): "), osszeg, tovabb, kesz);
+        list5.addAll(new Label("Részösszeg (Ft): "), osszeg, tovabb, kesz);
         ObservableList list6 = sor6.getChildren();
         list6.addAll(clear, uj, kilepes);
         ObservableList egesz = vbox.getChildren();

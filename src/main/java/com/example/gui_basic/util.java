@@ -102,7 +102,6 @@ public class util {
 
     public static boolean inputCheck() {
         boolean jovagynem = true;
-        System.out.println(" inputCheck ");
 
         //színek visszaállítása
         main.m1Mezo.setStyle("-fx-background-color: WHITE");
@@ -147,21 +146,6 @@ public class util {
             }
         }
 
-        // FONTOS, hogy ez az if itt legyen, mert eddig még csak a méret mezőket néztük, tehát most biztos, hogy a méret mezők megfelelő formátumú adatokkal vannak töltve
-        if (jovagynem) {
-            Double[] m = meretSorban(Double.parseDouble(main.m1Mezo.getText()), Double.parseDouble(main.m2Mezo.getText()), Double.parseDouble(main.m3Mezo.getText()));
-            Double a = m[0];
-            Double b = m[1];
-            Double c = m[2];
-            if ( (c > 61.0) || (b > 37.5) || (a > 36) ) {
-                jovagynem = false;
-                main.m1Mezo.setStyle("-fx-background-color: RED");
-                main.m2Mezo.setStyle("-fx-background-color: RED");
-                main.m3Mezo.setStyle("-fx-background-color: RED");
-                errormessage.display("A feladott csomag tömege nem lehet nagyobb 37,5 cm x 36 cm x 61 cm-nél");
-            }
-        }
-
         try {
             Double.parseDouble(main.tomegMezo.getText());
         } catch(NumberFormatException e) {
@@ -172,11 +156,6 @@ public class util {
             } else {
                 errormessage.display("A megadott adat formátuma nem megfelelő");
             }
-        }
-        if (Double.parseDouble(main.tomegMezo.getText()) > 20) {
-            jovagynem = false;
-            main.tomegMezo.setStyle("-fx-background-color: RED");
-            errormessage.display("A feladott csomag tömege nem lehet több 20 kg-nál");
         }
 
         try {
@@ -191,6 +170,50 @@ public class util {
             }
         }
 
+        // Értékek ellenőrzése: max érték a térfogatra és a tömegra, egyik mező sem lehet 0
+        // FONTOS, hogy ezek az ifek a mezők formátumának ellenőrzése után legyenek
+        if (jovagynem) {
+            Double[] m = meretSorban(Double.parseDouble(main.m1Mezo.getText()), Double.parseDouble(main.m2Mezo.getText()), Double.parseDouble(main.m3Mezo.getText()));
+            Double a = m[0];
+            Double b = m[1];
+            Double c = m[2];
+            if ( (c > 61.0) || (b > 37.5) || (a > 36) ) {
+                jovagynem = false;
+                main.m1Mezo.setStyle("-fx-background-color: RED");
+                main.m2Mezo.setStyle("-fx-background-color: RED");
+                main.m3Mezo.setStyle("-fx-background-color: RED");
+                errormessage.display("A feladott csomag mérete nem lehet nagyobb 37,5 cm x 36 cm x 61 cm-nél");
+            }
+        }
+        if (Double.parseDouble(main.m1Mezo.getText()) == 0) {
+            jovagynem = false;
+            main.m1Mezo.setStyle("-fx-background-color: RED");
+            errormessage.display("Az érték nem lehet 0");
+        }
+        if (Double.parseDouble(main.m2Mezo.getText()) == 0) {
+            jovagynem = false;
+            main.m2Mezo.setStyle("-fx-background-color: RED");
+            errormessage.display("Az érték nem lehet 0");
+        }
+        if (Double.parseDouble(main.m3Mezo.getText()) == 0) {
+            jovagynem = false;
+            main.m3Mezo.setStyle("-fx-background-color: RED");
+            errormessage.display("Az érték nem lehet 0");
+        }
+        if (Double.parseDouble(main.tomegMezo.getText()) == 0) {
+            jovagynem = false;
+            main.tomegMezo.setStyle("-fx-background-color: RED");
+            errormessage.display("Az érték nem lehet 0");
+        } else if (Double.parseDouble(main.tomegMezo.getText()) > 20) {
+            jovagynem = false;
+            main.tomegMezo.setStyle("-fx-background-color: RED");
+            errormessage.display("A feladott csomag tömege nem lehet több 20 kg-nál");
+        }
+        if (Integer.parseInt(main.tavMezo.getText()) == 0) {
+            jovagynem = false;
+            main.tavMezo.setStyle("-fx-background-color: RED");
+            errormessage.display("Az érték nem lehet 0");
+        }
         return jovagynem;
     }
 
