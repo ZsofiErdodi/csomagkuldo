@@ -10,27 +10,34 @@ public class util {
     static double reszszum = 0;
     static double szum = 0;
     static Integer ssz = 1;       // csomag sorszáma, hat az árra is
+    static Double m1;
+    static Double m2;
+    static Double m3;
 
-    public static Double[] meretSorban(Double x, Double y, Double z) {
+  /**  MÉRETEK SORBARENDEZÉSE
+   *     meg kell keverni a számokat, mert m1 (az egyetlen változó érték a csomagméreteknél) lehet nagyobb, mint m2
+   *     SORBARENDEZÉS UTÁN: m2 max 36,   m1 a 36 fölötti legkisebb szám,   m3 a legnagyobb szám
+   */
+    public static void meretSorban(Double x, Double y, Double z) {
         Double[] meretek = new Double[]{x, y, z};
         Arrays.sort(meretek);
-        return meretek;
-    }
 
-    public static double szamitas(int tav, double meret1, double meret2, double meret3, double tomeg) {
-        Double[] meretek = meretSorban(meret1, meret2, meret3);
-        Double m1;
-        //Double m2;
-        //Double m3 = meretek[2];
-
-        // meg kell keverni a számokat, mert m1 (az egyetlen változó érték a csomagméreteknél) lehet nagyobb, mint m2 (m1 max 37.5, m2 max 36)
         if (meretek[1] > 36 ) {
             m1 = meretek[1];
-            //m2 = meretek[0];
+            m2 = meretek[0];
+            m3 = meretek[2];
         } else {
             m1 = meretek[0];
-            //m2 = meretek[1];
+            m2 = meretek[1];
+            m3 = meretek[2];
         }
+    }
+
+  /**
+   *   SZÁMÍTÁS
+   */
+    public static double szamitas(int tav, double meret1, double meret2, double meret3, double tomeg) {
+        meretSorban(meret1, meret2, meret3);
 
         if (tav < 5) {
             reszeredm = 500;
@@ -76,6 +83,9 @@ public class util {
         return szum;
     }
 
+  /**
+   *   MEZŐK ÜRESRE ÁLLÍTÁSA
+   */
     public static void reset() {
         main.m1Mezo.setText("");
         main.m2Mezo.setText("");
@@ -90,6 +100,9 @@ public class util {
         main.tavMezo.setStyle("-fx-background-color: WHITE");
     }
 
+  /**
+   *   TELJES CSOMAGFELADÁSI FOLYAMAT TÖRLÉSE
+   */
     public static void clear() {
         reset();
         reszeredm = 0;
@@ -100,7 +113,10 @@ public class util {
         main.osszeg.setText(Double.toString(szum));
     }
 
-    public static boolean inputCheck() {
+  /**
+   *   BEVITELI MEZŐK ELLENŐRZÉSE (FORMAI & ÉRTÉK ELLENŐRZÉS)
+   */
+    public static boolean inputCheck(String tav, String meret1, String meret2, String meret3, String tomeg) {
         boolean jovagynem = true;
 
         //színek visszaállítása
@@ -111,11 +127,11 @@ public class util {
         main.tavMezo.setStyle("-fx-background-color: WHITE");
 
         try {
-            Double.parseDouble(main.m1Mezo.getText());
+            Double.parseDouble(meret1);
         } catch(NumberFormatException e) {
             jovagynem = false;
             main.m1Mezo.setStyle("-fx-background-color: RED");
-            if (main.m1Mezo.getText() == "") {
+            if (meret1 == "") {
                 errormessage.display("Üres méret mező");
             } else {
                 errormessage.display("A megadott adat formátuma nem megfelelő");
@@ -123,11 +139,11 @@ public class util {
         }
 
         try {
-            Double.parseDouble(main.m2Mezo.getText());
+            Double.parseDouble(meret2);
         } catch(NumberFormatException e) {
             jovagynem = false;
             main.m2Mezo.setStyle("-fx-background-color: RED");
-            if (main.m2Mezo.getText() == "") {
+            if (meret2 == "") {
                 errormessage.display("Üres méret mező");
             } else {
                 errormessage.display("A megadott adat formátuma nem megfelelő");
@@ -135,11 +151,11 @@ public class util {
         }
 
         try {
-            Double.parseDouble(main.m3Mezo.getText());
+            Double.parseDouble(meret3);
         } catch(NumberFormatException e) {
             jovagynem = false;
             main.m3Mezo.setStyle("-fx-background-color: RED");
-            if (main.m3Mezo.getText() == "") {
+            if (meret3 == "") {
                 errormessage.display("Üres méret mező");
             } else {
                 errormessage.display("A megadott adat formátuma nem megfelelő");
@@ -147,11 +163,11 @@ public class util {
         }
 
         try {
-            Double.parseDouble(main.tomegMezo.getText());
+            Double.parseDouble(tomeg);
         } catch(NumberFormatException e) {
             jovagynem = false;
             main.tomegMezo.setStyle("-fx-background-color: RED");
-            if (main.tomegMezo.getText() == "") {
+            if (tomeg == "") {
                 errormessage.display("Üres tömeg mező");
             } else {
                 errormessage.display("A megadott adat formátuma nem megfelelő");
@@ -159,60 +175,56 @@ public class util {
         }
 
         try {
-            Integer.parseInt(main.tavMezo.getText());
+            Integer.parseInt(tav);
         } catch(NumberFormatException e) {
             jovagynem = false;
             main.tavMezo.setStyle("-fx-background-color: RED");
-            if (main.tavMezo.getText() == "") {
+            if (tav == "") {
                 errormessage.display("Üres szállítási távolság mező");
             } else {
                 errormessage.display("A megadott adat formátuma nem megfelelő");
             }
         }
 
-        // Értékek ellenőrzése: max érték a térfogatra és a tömegra, egyik mező sem lehet 0
+        // Értékek ellenőrzése: max érték a térfogatra és a tömegra, egyik mező sem lehet <= 0
         // FONTOS, hogy ezek az ifek a mezők formátumának ellenőrzése után legyenek
-        if (jovagynem) {
-            Double[] m = meretSorban(Double.parseDouble(main.m1Mezo.getText()), Double.parseDouble(main.m2Mezo.getText()), Double.parseDouble(main.m3Mezo.getText()));
-            Double a = m[0];
-            Double b = m[1];
-            Double c = m[2];
-            if ( (c > 61.0) || (b > 37.5) || (a > 36) ) {
-                jovagynem = false;
-                main.m1Mezo.setStyle("-fx-background-color: RED");
-                main.m2Mezo.setStyle("-fx-background-color: RED");
-                main.m3Mezo.setStyle("-fx-background-color: RED");
-                errormessage.display("A feladott csomag mérete nem lehet nagyobb 37,5 cm x 36 cm x 61 cm-nél");
-            }
-        }
-        if (Double.parseDouble(main.m1Mezo.getText()) == 0) {
+        meretSorban(Double.parseDouble(meret1), Double.parseDouble(meret2), Double.parseDouble(meret3));
+        if ( (m1 > 37.5) || (m2 > 36) || (m3 > 61) ) {
             jovagynem = false;
             main.m1Mezo.setStyle("-fx-background-color: RED");
-            errormessage.display("Az érték nem lehet 0");
+            main.m2Mezo.setStyle("-fx-background-color: RED");
+            main.m3Mezo.setStyle("-fx-background-color: RED");
+            errormessage.display("A feladott csomag mérete nem lehet nagyobb 37,5 cm x 36 cm x 61 cm-nél");
         }
-        if (Double.parseDouble(main.m2Mezo.getText()) == 0) {
+
+        if (Double.parseDouble(meret1) <= 0) {
+            jovagynem = false;
+            main.m1Mezo.setStyle("-fx-background-color: RED");
+            errormessage.display("Az érték nem lehet kisebb vagy egyenlő 0-nál");
+        }
+        if (Double.parseDouble(meret2) <= 0) {
             jovagynem = false;
             main.m2Mezo.setStyle("-fx-background-color: RED");
-            errormessage.display("Az érték nem lehet 0");
+            errormessage.display("Az érték nem lehet kisebb vagy egyenlő 0-nál");
         }
-        if (Double.parseDouble(main.m3Mezo.getText()) == 0) {
+        if (Double.parseDouble(meret3) <= 0) {
             jovagynem = false;
             main.m3Mezo.setStyle("-fx-background-color: RED");
-            errormessage.display("Az érték nem lehet 0");
+            errormessage.display("Az érték nem lehet kisebb vagy egyenlő 0-nál");
         }
-        if (Double.parseDouble(main.tomegMezo.getText()) == 0) {
+        if (Double.parseDouble(tomeg) <= 0) {
             jovagynem = false;
             main.tomegMezo.setStyle("-fx-background-color: RED");
-            errormessage.display("Az érték nem lehet 0");
-        } else if (Double.parseDouble(main.tomegMezo.getText()) > 20) {
+            errormessage.display("Az érték nem lehet kisebb vagy egyenlő 0-nál");
+        } else if (Double.parseDouble(tomeg) > 20) {
             jovagynem = false;
             main.tomegMezo.setStyle("-fx-background-color: RED");
             errormessage.display("A feladott csomag tömege nem lehet több 20 kg-nál");
         }
-        if (Integer.parseInt(main.tavMezo.getText()) == 0) {
+        if (Integer.parseInt(tav) <= 0) {
             jovagynem = false;
             main.tavMezo.setStyle("-fx-background-color: RED");
-            errormessage.display("Az érték nem lehet 0");
+            errormessage.display("Az érték nem lehet kisebb vagy egyenlő 0-nál");
         }
         return jovagynem;
     }

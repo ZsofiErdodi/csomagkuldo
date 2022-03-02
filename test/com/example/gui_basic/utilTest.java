@@ -4,24 +4,15 @@ import org.junit.jupiter.api.*;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvFileSource;
 import org.junit.jupiter.params.provider.CsvSource;
-
-import java.util.stream.IntStream;
-import java.util.stream.Stream;
-
 import static org.junit.jupiter.api.Assertions.*;
-import static org.junit.jupiter.api.DynamicTest.dynamicTest;
-
 
 class utilTest {
 
     util util = null;
 
     @BeforeEach
-    void setUp() {
-        util = new util();
-    }
+    void setUp() { util = new util(); }
 
-    
     @DisplayName("Részeredmény és végeredmény számítását végző függvény tesztje; Paraméterezett teszt csv fájlból")
     @ParameterizedTest
     @CsvFileSource(resources = "/szamitasTeszt.csv", numLinesToSkip = 1)
@@ -34,6 +25,36 @@ class utilTest {
         assertEquals(vartSsz, util.ssz);
     }
 
+    @DisplayName("Térfogat méreteit sorbarendező metódus tesztje")
+    @ParameterizedTest
+    @CsvSource({
+            "1, 2, 3, 1, 2, 3",
+            "2, 1, 3, 1, 2, 3",
+            "3, 2, 1, 1, 2, 3",
+            "3, 1, 2, 1, 2, 3",
+            "1, 3, 2, 1, 2, 3",
+            "2, 3, 1, 1, 2, 3",
+            "1, 37.5, 40, 37.5, 1, 40",  //mert m1 legfeljebb 37.5 lehet, m2 pedig kevesebb
+            "40, 37.5, 1, 37.5, 1, 40",
+            "1, 40, 37.5, 37.5, 1, 40",
+            "40, 1, 37.5, 37.5, 1, 40",
+            "37.5, 1, 40, 37.5, 1, 40",
+            "37.5, 40, 1, 37.5, 1, 40",
+            "36, 37.6, 37.5, 37.5, 36, 37.6",  //mert 37.6 már csak m3 lehet (m1 max 37.5, m2 max 36)
+            "37.5, 37.6, 36, 37.5, 36, 37.6",
+            "36, 37.5, 37.6, 37.5, 36, 37.6",
+            "37.5, 36, 37.6, 37.5, 36, 37.6",
+            "37.6, 36, 37.5, 37.5, 36, 37.6",
+            "37.6, 37.5, 36, 37.5, 36, 37.6",
+    }) //i: input, o: output
+    void meretSorbanTest(Double i1, Double i2, Double i3, Double o1, Double o2, Double o3) {
+        util.meretSorban(i1, i2, i3);
+        assertEquals(o1, util.m1);
+        assertEquals(o2, util.m2);
+        assertEquals(o3, util.m3);
+    }
+
+    /*
     @Test
     @DisplayName("Legelső teszt a részeredmény és végeredmény számítását végző függvényre")
     void szamitasTeszt_v0() {
@@ -182,7 +203,7 @@ class utilTest {
         assertEquals(1170, util.szum);
         assertEquals(7, util.ssz);
 
-    }
+    } */
 
 
 }

@@ -5,7 +5,6 @@ import javafx.application.Platform;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
-
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -110,7 +109,7 @@ public class main extends Application {
                 util.reset();
         // Tovább gomb
             } else if (actionEvent.getSource() == tovabb) {
-                boolean kitoltes = util.inputCheck();
+                boolean kitoltes = util.inputCheck(main.tavMezo.getText(), main.m1Mezo.getText(), main.m2Mezo.getText(), main.m3Mezo.getText(), main.tomegMezo.getText());
                 if (kitoltes) {
                     util.szamitas(Integer.parseInt(tavMezo.getText()), Double.parseDouble(m1Mezo.getText()), Double.parseDouble(m2Mezo.getText()), Double.parseDouble(m3Mezo.getText()), Double.parseDouble(tomegMezo.getText()));
                     util.reset();
@@ -120,7 +119,7 @@ public class main extends Application {
             }
         // Kész gomb
             else if (actionEvent.getSource() == kesz) {
-                boolean kitoltes = util.inputCheck();
+                boolean kitoltes = util.inputCheck(main.tavMezo.getText(), main.m1Mezo.getText(), main.m2Mezo.getText(), main.m3Mezo.getText(), main.tomegMezo.getText());
                 if (kitoltes) {
                     util.szamitas(Integer.parseInt(tavMezo.getText()), Double.parseDouble(m1Mezo.getText()), Double.parseDouble(m2Mezo.getText()), Double.parseDouble(m3Mezo.getText()), Double.parseDouble(tomegMezo.getText()));
                     Integer db = util.ssz - 1;

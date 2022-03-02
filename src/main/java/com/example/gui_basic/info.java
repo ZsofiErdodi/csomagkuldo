@@ -7,6 +7,8 @@ import javafx.scene.control.Button;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 
 public class info {
 
@@ -45,7 +47,7 @@ public class info {
         infoablak.setScene(infoscene);
         infoablak.show();
 
-        close.setOnAction(new javafx.event.EventHandler<javafx.event.ActionEvent>() {
+        close.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(javafx.event.ActionEvent actionEvent) {
                 infoablak.close();
