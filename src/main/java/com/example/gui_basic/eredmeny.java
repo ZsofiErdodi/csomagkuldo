@@ -31,9 +31,14 @@ public class eredmeny {
         eredmenyablak.setScene(eredmenyscene);
         eredmenyablak.show();
 
+        eredmenyablak.setOnCloseRequest(evt -> {
+            evt.consume();
+            eredmenyablak.close();
+            util.clear();
+        });
         close.setOnAction(new EventHandler<ActionEvent>() {
             @Override
-            public void handle(javafx.event.ActionEvent actionEvent) {
+            public void handle(ActionEvent actionEvent) {
                 eredmenyablak.close();
                 util.clear();
             }
