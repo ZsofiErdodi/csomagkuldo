@@ -26,21 +26,25 @@ public class info {
         szoveg.setText("Árképzés:\n\n" +
                 "Alapár a szállítási távolságtól függően:\n" +
                 "0 <  t < 5 km             500 Ft\n" +
-                "5 <= t < 100 km        750 Ft\n" +
-                "t >= 100 km              1000 Ft\n\n" +
+                "5 ≤ t < 100 km          750 Ft\n" +
+                "100 km ≤ t                1000 Ft\n\n" +
                 "Csomag mérete:\n" +
                 "11,5 cm x 36 cm x 61 cm (S)       alap ár\n" +
                 "19,5 cm x 36 cm x 61 cm (M)     +10%\n" +
                 "37,5 cm x 36 cm x 61 cm (L)       +20!\n\n" +
                 "Csomag tömege:\n" +
-                "0 < m <= 1 kg        alap ár\n" +
-                "1 < m <= 3 kg        +10%\n" +
-                "3 < m <= 10 kg      +20%\n" +
-                "10 < m <= 20 kg    +30%\n\n" +
+                "0 < m ≤ 1 kg         alap ár\n" +
+                "1 < m ≤ 3 kg         +10%\n" +
+                "3 < m ≤ 10 kg       +20%\n" +
+                "10 < m ≤ 20 kg     +30%\n\n" +
                 "Darabszám:\n" +
                 "1 db                   alap/térfogat/tömeg által meghatározott ár\n" +
-                "2 <= x < 5 db    -15%\n" +
-                "x >= 5 db           -25%");
+                "2 ≤ x < 5 db      -15%\n" +
+                "5 db ≤ x             -25%\n\n\n" +
+                "A szállítási távolság km-ben kifejezve, 1 egész pontossággal,\n" +
+                "a térfogat három értéke cm-ben kifejezve, 1 tizedes pontossággal,\n" +
+                "míg a tömeg kg-ban kifejezve, 1 tizedes pontossággal adható meg."
+        );
 
         vbox.getChildren().addAll(szoveg, close);
         Scene infoscene = new Scene(vbox);

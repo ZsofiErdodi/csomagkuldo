@@ -50,7 +50,7 @@ public class main extends Application {
         m3Mezo.setMaxWidth(50);
         tomegMezo.setMaxWidth(50);
         tavMezo.setMaxWidth(50);
-        osszeg.setPrefWidth(100);
+        osszeg.setPrefWidth(70);
         primaryStage.setScene(scene);
         sor1.setSpacing(10);
         sor3.setSpacing(10);
@@ -63,8 +63,8 @@ public class main extends Application {
         vbox.setMargin(sor4, new Insets(0, 20, 40, 20));
         vbox.setMargin(sor5, new Insets(0, 20, 50, 20));
         vbox.setMargin(sor6, new Insets(0, 20, 20, 20));
-        sor1.setMargin(infoGomb, new Insets(0,0,0,180));
-        sor5.setMargin(tovabb, new Insets(0, 0, 0, 55));
+        sor1.setMargin(infoGomb, new Insets(0,0,0,235));
+        sor4.setMargin(tomegMezo, new Insets(0,30,0,0));
         sor6.setAlignment(Pos.CENTER);
         sszMezo.setStyle("-fx-background-color: transparent");
         osszeg.setStyle("-fx-background-color: transparent");
@@ -78,7 +78,7 @@ public class main extends Application {
         ObservableList list4 = sor4.getChildren();
         list4.addAll(new Label("Csomag tömege (kg): "), tomegMezo, new Label("Szállítási távolság (km): "), tavMezo);
         ObservableList list5 = sor5.getChildren();
-        list5.addAll(new Label("Részösszeg (Ft): "), osszeg, tovabb, kesz);
+        list5.addAll(new Label("Csomagfeladási díj eddig összesen (Ft): "), osszeg, tovabb, kesz);
         ObservableList list6 = sor6.getChildren();
         list6.addAll(clear, uj, kilepes);
         ObservableList egesz = vbox.getChildren();
